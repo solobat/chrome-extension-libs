@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "allowJs": false,
+    "target": "ESNext",
+    "module": "ESNext",
+    "incremental": true,
+    "skipLibCheck": true,
+    "declaration": true,
+    "esModuleInterop": true,
+    "outDir": "lib",
+    "resolveJsonModule": true,
+    "moduleResolution": "node",
+    "types": [],
+    "noFallthroughCasesInSwitch": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true
+  },
+  "include": [
+    "src",
+    "node_modules/@types"
+  ]
+}
