@@ -22,6 +22,7 @@ import {
 export type LibsOptions = DBState &
   WebdavState & {
     storageKey: string;
+    syncInterval?: number;
   };
 
 export interface ExtLibs {
@@ -35,6 +36,7 @@ export function getLibs(options: LibsOptions): ExtLibs {
   initCuid(options.storageKey);
   initDBHelper(options.extName, options.db, options.dbNames);
   initWebdav(options.extName, options.ROOT_PATH);
+  let sync: Sync;
 
   return {
     getCuid,
@@ -46,7 +48,15 @@ export function getLibs(options: LibsOptions): ExtLibs {
       initClientWithConfig,
     },
     Sync: {
-      SyncClass: Sync,
+      getSync: () => {
+        if (sync) {
+          return sync;
+        } else {
+          sync = new Sync({ syncInterval: options.syncInterval });
+
+          return sync;
+        }
+      },
       isAutoSync,
     },
     DB: {

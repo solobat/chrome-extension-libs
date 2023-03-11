@@ -86,5 +86,5 @@ export class Sync extends SimpleEvent<EventType> {
 
 export interface SyncModule {
   isAutoSync: typeof isAutoSync,
-  SyncClass: typeof Sync
+  getSync: () => Sync
 }
