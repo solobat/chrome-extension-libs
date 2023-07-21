@@ -19,14 +19,14 @@ const chromeStorage: Storage = {
 
 const browserStorage: Storage = {
   getItem: async <T>(key: string): Promise<T | null> => {
-    const value = localStorage.getItem(key);
+    const value = window?.localStorage.getItem(key);
     return value ? JSON.parse(value) : null;
   },
   setItem: async <T>(key: string, value: T): Promise<void> => {
-    localStorage.setItem(key, JSON.stringify(value));
+    window?.localStorage.setItem(key, JSON.stringify(value));
   },
   removeItem: async (key: string): Promise<void> => {
-    localStorage.removeItem(key);
+    window?.localStorage.removeItem(key);
   },
 };
 
