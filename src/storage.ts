@@ -17,18 +17,18 @@ const chromeStorage: Storage = {
     new Promise((resolve) => chrome.storage.local.remove(key, resolve)),
 };
 
-const localStorage: Storage = {
+const browserStorage: Storage = {
   getItem: async <T>(key: string): Promise<T | null> => {
-    const value = window.localStorage.getItem(key);
+    const value = localStorage.getItem(key);
     return value ? JSON.parse(value) : null;
   },
   setItem: async <T>(key: string, value: T): Promise<void> => {
-    window.localStorage.setItem(key, JSON.stringify(value));
+    localStorage.setItem(key, JSON.stringify(value));
   },
   removeItem: async (key: string): Promise<void> => {
-    window.localStorage.removeItem(key);
+    localStorage.removeItem(key);
   },
 };
 
 export const storage: Storage =
-  chrome.storage && chrome.storage.local ? chromeStorage : localStorage;
+  chrome.storage && chrome.storage.local ? chromeStorage : browserStorage;
