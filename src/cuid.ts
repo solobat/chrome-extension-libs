@@ -1,19 +1,19 @@
+import { storage } from "./storage";
+
 let STORAGE_KEY = "cuid";
 
 function init() {
   const id = crypto.randomUUID();
 
-  chrome.storage.local.set({
-    [STORAGE_KEY]: id,
-  });
+  storage.setItem(STORAGE_KEY, id);
 
   return id;
 }
 
 async function restoreCuid() {
-  const res = await chrome.storage.local.get(STORAGE_KEY);
+  const res = await storage.getItem<string>(STORAGE_KEY);
 
-  return res[STORAGE_KEY];
+  return res;
 }
 
 export async function getCuid() {

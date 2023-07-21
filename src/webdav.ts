@@ -6,6 +6,7 @@ import fetchAdapter from "@vespaiach/axios-fetch-adapter";
 
 import { getCuid } from "./cuid";
 import { exportAsJson, importDBFile } from "./db.helper";
+import { storage } from "./storage";
 
 const client = axios.create({ adapter: fetchAdapter as any });
 
@@ -51,9 +52,9 @@ function configClient(config: Config) {
 const WEBDAV_CONFIG_KEY = "webdav_config";
 
 async function restoreConfig(): Promise<Config | null> {
-  const res = await chrome.storage.local.get(WEBDAV_CONFIG_KEY);
+  const res = await storage.getItem<Config>(WEBDAV_CONFIG_KEY);
 
-  return res[WEBDAV_CONFIG_KEY] || null;
+  return res || null;
 }
 
 export interface WebdavModule {
@@ -65,7 +66,7 @@ export interface WebdavModule {
 }
 
 export function removeWebDavConfig() {
-  chrome.storage.local.remove(WEBDAV_CONFIG_KEY);
+  storage.removeItem(WEBDAV_CONFIG_KEY);
   webDavClient = null;
 }
 
@@ -91,7 +92,7 @@ export function isWebDavConfiged(): boolean {
 
 export function saveConfig(config: Config) {
   try {
-    chrome.storage.local.set({ [WEBDAV_CONFIG_KEY]: config });
+    storage.setItem(WEBDAV_CONFIG_KEY, config);
   } catch (error) {}
 }
 

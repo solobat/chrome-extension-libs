@@ -1,20 +1,24 @@
 import { throttle } from "lodash";
 
 import {
-    STORAGE_KEYS, SYNC_STATUS, WEBDAV_MAX_SYNC_INTERVAL, WEBDAV_MIN_SYNC_INTERVAL
+  STORAGE_KEYS,
+  SYNC_STATUS,
+  WEBDAV_MAX_SYNC_INTERVAL,
+  WEBDAV_MIN_SYNC_INTERVAL,
 } from "./constant";
 import { onDbUpdate } from "./db.helper";
 import { SimpleEvent } from "./event";
 import { tuple } from "./types";
 import { createDataSyncTick, isWebDavConfiged } from "./webdav";
+import { storage } from "./storage";
 
 const EventTypes = tuple("received", "uploaded");
 
-export type EventType = typeof EventTypes[number];
+export type EventType = (typeof EventTypes)[number];
 
 export function isAutoSync() {
-  return chrome.storage.local.get(STORAGE_KEYS.AUTO_SYNC).then((res) => {
-    return res[STORAGE_KEYS.AUTO_SYNC] === 1;
+  return storage.getItem<Number>(STORAGE_KEYS.AUTO_SYNC).then((res) => {
+    return res === 1;
   });
 }
 
@@ -85,6 +89,6 @@ export class Sync extends SimpleEvent<EventType> {
 }
 
 export interface SyncModule {
-  isAutoSync: typeof isAutoSync,
-  getSync: () => Sync
+  isAutoSync: typeof isAutoSync;
+  getSync: () => Sync;
 }
