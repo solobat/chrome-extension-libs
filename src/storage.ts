@@ -30,5 +30,15 @@ const browserStorage: Storage = {
   },
 };
 
+const emptyStorage: Storage = {
+  getItem: async () => null,
+  setItem: async () => {},
+  removeItem: async () => {},
+};
+
 export const storage: Storage =
-  chrome.storage && chrome.storage.local ? chromeStorage : browserStorage;
+  chrome.storage && chrome.storage.local
+    ? chromeStorage
+    : typeof window !== "undefined"
+    ? browserStorage
+    : emptyStorage;
